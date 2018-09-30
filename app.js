@@ -6,6 +6,7 @@ const keys     = require('./config/keys');
 const app      = express();
 const port     = process.env.PORT || 5000;
 
+require('./models/User');
 require('./config/passport')(passport);
 
 app.use('/auth', auth);
