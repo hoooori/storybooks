@@ -16,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/hoooori/storybooks/issues"
   },
-  "homepage": "https://github.com/hoooori/storybooks#readme"
+  "homepage": "https://github.com/hoooori/storybooks#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "mongoose": "^5.3.0"
+  }
 }
