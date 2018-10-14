@@ -21,6 +21,9 @@ const index   = require('./routes/index');
 const auth    = require('./routes/auth');
 const stories = require('./routes/stories');
 
+// Handlebars Helpers
+const { truncate, stripTags, formatDate } = require('./helpers/hbs');
+
 // ******** MongoDB Connection ******** //
 mongoose.Promise = global.Promise; // Map global promise - get rid of warning
 mongoose.connect(keys.mongoURI, { useNewUrlParser: true }) // Connect
@@ -30,9 +33,13 @@ mongoose.connect(keys.mongoURI, { useNewUrlParser: true }) // Connect
 
 const app = express();
 
+/******************** Middleware ********************/
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
+app.engine('handlebars', exphbs({
+  helpers: { truncate: truncate, stripTags: stripTags, formatDate: formatDate },
+  defaultLayout: 'main'
+}));
 app.set('view engine', 'handlebars');
 app.use(cookieParser());
 app.use(session({ secret: 'secret', resave: false, saveUninitialized: false }))
@@ -43,6 +50,7 @@ app.use((req, res, next) => {
   res.locals.user = req.user || null;
   next();
 })
+/******************** Middleware ********************/
 
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
