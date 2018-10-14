@@ -22,7 +22,12 @@ const auth    = require('./routes/auth');
 const stories = require('./routes/stories');
 
 // Handlebars Helpers
-const { truncate, stripTags, formatDate } = require('./helpers/hbs');
+const {
+  truncate,
+  stripTags,
+  formatDate,
+  select
+} = require('./helpers/hbs');
 
 // ******** MongoDB Connection ******** //
 mongoose.Promise = global.Promise; // Map global promise - get rid of warning
@@ -40,7 +45,12 @@ app.use(bodyParser.json())
 
 // Handlebars
 app.engine('handlebars', exphbs({
-  helpers: { truncate: truncate, stripTags: stripTags, formatDate: formatDate },
+  helpers: {
+    truncate:   truncate,
+    stripTags:  stripTags,
+    formatDate: formatDate,
+    select:     select
+  },
   defaultLayout: 'main'
 }));
 app.set('view engine', 'handlebars');
