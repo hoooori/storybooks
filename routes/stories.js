@@ -9,9 +9,8 @@ const { ensureAuthenticated, ensureGuest } = require('../helpers/auth');
 router.get('/', (req, res) => {
   Story.find({ status: 'public' })
        .populate('user')
-       .then(stories => {
-    res.render('stories/index', { stories: stories });
-  });
+       .sort({ date: 'desc' })
+       .then(stories => { res.render('stories/index', { stories: stories });});
 });
 
 // new
@@ -53,7 +52,11 @@ router.get('/show/:id', (req, res) => {
 // edit
 router.get('/edit/:id', ensureAuthenticated, (req, res) => {
   Story.findOne({ _id: req.params.id }).then(story => {
-    res.render('stories/edit', { story: story });
+    if(story.user != req.user.id) {
+      res.redirect('/stories');
+    } else {
+      res.render('stories/edit', { story: story });
+    }
   });
 });
 
