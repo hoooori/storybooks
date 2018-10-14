@@ -34,8 +34,11 @@ mongoose.connect(keys.mongoURI, { useNewUrlParser: true }) // Connect
 const app = express();
 
 /******************** Middleware ********************/
+// Body Parser
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+
+// Handlebars
 app.engine('handlebars', exphbs({
   helpers: { truncate: truncate, stripTags: stripTags, formatDate: formatDate },
   defaultLayout: 'main'
