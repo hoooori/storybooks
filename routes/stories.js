@@ -98,6 +98,20 @@ router.post('/comment/:id', (req, res) => {
       res.redirect(`/stories/show/${story.id}`)
     });
   })
+});
+
+// list stories from a user(public storyのみ表示)
+router.get('/user/:userId', (req, res) => {
+  Story.find({ user: req.params.userId, status: 'public' })
+       .populate('user')
+       .then(stories => { res.render('stories/index', { stories: stories }); });
+});
+
+// Logged in users stories(全てのstoryを表示)
+router.get('/my', ensureAuthenticated, (req, res) => {
+  Story.find({ user: req.user.id })
+       .populate('user')
+       .then(stories => { res.render('stories/index', { stories: stories }); });
 })
 
 module.exports = router;
